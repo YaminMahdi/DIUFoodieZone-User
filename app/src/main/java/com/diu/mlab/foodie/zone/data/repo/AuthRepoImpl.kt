@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
 import javax.inject.Inject
 
@@ -134,30 +135,39 @@ class AuthRepoImpl @Inject constructor(
             }
     }
 
-    override suspend fun getTeacherInfo(link: String): FoodieUser {
+    override suspend fun getTeacherInfo(link: String): FoodieUser?{
         val info = FoodieUser(userType="Teacher")
-        val doc = Jsoup.connect(link).get() //https://faculty.daffodilvarsity.edu.bd/profile/cse/shah-md-tanvir.html
-        Log.d("TAG", "onCreate: ${doc.title()}")
-        val newsHeadlines0 = doc.select(".profile-row0")
-        val newsHeadlines1 = doc.select(".profile-row1")
-        val dp = doc.select(".profaile-pic img")
-        if(dp.isNotEmpty())
-            info.pic = dp[0].attr("src")
-        Log.d("TAG", "Name: "+"\n\t ${dp[0].html()}")
-        for (headline in newsHeadlines0) {
-            if(headline.select(".profile-row-left").html().lowercase().contains("name"))
-                info.nm = headline.select(".profile-row-right").html()
-            else if(headline.select(".profile-row-left").html().lowercase().contains("mail"))
-                info.email = headline.select(".profile-row-right").html()
-            else if(headline.select(".profile-row-left").html().lowercase().contains("phone"))
-                info.phone = headline.select(".profile-row-right").html()
+        try{
+            val doc = Jsoup.connect(link).get() //https://faculty.daffodilvarsity.edu.bd/profile/cse/shah-md-tanvir.html
+            Log.d("TAG", "onCreate: ${doc.title()}")
+            val newsHeadlines0 = doc.select(".profile-row0")
+            val newsHeadlines1 = doc.select(".profile-row1")
+            val dp = doc.select(".profaile-pic img")
+            if(dp.isNotEmpty())
+                info.pic = dp[0].attr("src")
+            Log.d("TAG", "Name: "+"\n\t ${dp[0].html()}")
+            for (headline in newsHeadlines0) {
+                if(headline.select(".profile-row-left").html().lowercase().contains("name"))
+                    info.nm = headline.select(".profile-row-right").html()
+                else if(headline.select(".profile-row-left").html().lowercase().contains("mail")) {
+                    info.email = headline.select(".profile-row-right").html().split(",")[0]
+                }
+                else if(headline.select(".profile-row-left").html().lowercase().contains("phone")) {
+                    info.phone = headline.select(".profile-row-right").html().split(",")[0]
+                }
+            }
+            for (headline in newsHeadlines1) {
+                if(headline.select(".profile-row-left").html().lowercase().contains("id"))
+                    info.id = headline.select(".profile-row-right").html()
+            }
+            Log.d("TAG", "onCreate: $info")
+            return info
         }
-        for (headline in newsHeadlines1) {
-            if(headline.select(".profile-row-left").html().lowercase().contains("id"))
-                info.id = headline.select(".profile-row-right").html()
+        catch (ex: HttpStatusException){
+            Log.d("TAG", "getTeacherInfo HttpStatusException: $ex")
+            return null
         }
-        Log.d("TAG", "onCreate: $info")
-        return info
+
     }
 
 }

@@ -17,7 +17,7 @@ interface AuthRepo {
         failed :(msg : String) -> Unit
     )
 
-    suspend fun getTeacherInfo(link: String) : FoodieUser
+    suspend fun getTeacherInfo(link: String) : FoodieUser?
 
 
 }

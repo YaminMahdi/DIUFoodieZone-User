@@ -13,5 +13,5 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
     }
 }
-rootProject.name = "Foodie Zone"
+rootProject.name = "DIU Foodie Zone"
 include ':app'

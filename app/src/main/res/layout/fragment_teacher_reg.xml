@@ -55,6 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="0dp"
             android:orientation="vertical"
             >
             <LinearLayout
@@ -66,13 +68,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
                     android:orientation="vertical"
+                    android:layout_marginEnd="10dp"
                     >
                     <TextView
                         android:id="@+id/nm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ubuntu_bold"
-                        android:text="Ahmad Umar Mahdi"
                         android:textSize="18sp"
                         android:layout_marginBottom="16dp"
                         android:textColor="@color/darkX"
@@ -95,7 +97,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/ubuntu_regular"
-                            android:text="710001060"
                             android:textSize="16sp"
                             android:textColor="@color/darkX"
                             />
@@ -106,7 +107,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/ubuntu_regular"
-                        android:text="01847140176"
                         android:drawablePadding="5dp"
                         app:drawableStartCompat="@drawable/ic_phone"
                         app:drawableTint="@color/darkX"
@@ -139,7 +139,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/ubuntu_bold"
-                android:text="drnoori@daffodilvarsity.edu.bd"
                 android:textSize="16sp"
                 android:layout_marginBottom="5dp"
                 android:textColor="@color/tia"

@@ -16,5 +16,20 @@
         <item name="android:textViewStyle">@font/ubuntu_regular</item>
         <item name="buttonStyle">@font/ubuntu_regular</item>
 
+
+
     </style>
+
+    <style name="Theme.FoodieZone.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.FoodieZone.windowTranslucentStatus" parent="Theme.FoodieZone">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="Theme.FoodieZone.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.FoodieZone.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

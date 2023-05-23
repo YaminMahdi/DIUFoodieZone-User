@@ -10,9 +10,12 @@
 
 
     <color name="whiteX">#EEEBEB</color>
+    <color name="whiteXx">#EEEBEB</color>
     <color name="whiteY">#DDDDDD</color>
-    <color name="whiteTrans">#33FFFFFF</color>
-    <color name="blackTrans">#33000000</color>
+    <color name="whiteTrans">#33FFFFFF</color> 20111111
+    <color name="trans">#20111111</color>
+
+    <color name="blackTrans">#1A000000</color>
 
     <color name="orange">#FFC01F</color>
     <color name="pink">#FF0044</color>
@@ -45,4 +48,5 @@
     <color name="bg1">#44d3e0</color>
     <color name="bg2">#fbd2b7</color>
     <color name="bg3">#355cce</color>
+    <color name="whiteZ">#F7F8F9</color>
 </resources>

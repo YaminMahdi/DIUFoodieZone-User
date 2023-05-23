@@ -15,6 +15,7 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -79,6 +80,25 @@ class UserMainRepoImpl @Inject constructor(
                 override fun onChildRemoved(snapshot: DataSnapshot) {}
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
                 override fun onCancelled(error: DatabaseError) {}
+            })
+    }
+
+    override fun getFoodDetails(
+        shopEmail: String,
+        foodId: String,
+        success: (food: FoodItem) -> Unit,
+        failed: (msg: String) -> Unit
+    ) {
+        realtime
+            .getReference("shopProfile").child(shopEmail).child("foodList").child(foodId)
+            .addValueEventListener(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val food = snapshot.getValue<FoodItem>()!!
+                    success.invoke(food)
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    failed.invoke(error.message)
+                }
             })
     }
 

@@ -21,9 +21,24 @@ class AuthViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
+    val isLeftTabSelected= savedStateHandle.getLiveData<Boolean>("leftTabSelected")
+
+    val studentId= savedStateHandle.getLiveData<String>("studentId")
+    val studentPn= savedStateHandle.getLiveData<String>("studentPn")
+
     val teacherInfo= savedStateHandle.getLiveData<FoodieUser>("teacherInfo")
+    val teacherLink= savedStateHandle.getLiveData<String>("link")
     val loadingVisibility= savedStateHandle.getLiveData<Boolean>("loading")
 
+    fun setLeftTabSelected(isSelected: Boolean){
+        savedStateHandle["leftTabSelected"] = isSelected
+    }
+    fun setStudentId(id: String){
+        savedStateHandle["studentId"] = id
+    }
+    fun setStudentPn(pn: String){
+        savedStateHandle["studentPn"] = pn
+    }
     fun setLoadingVisibility(visibility: Boolean, time: Int = 1){
         viewModelScope.launch(Dispatchers.Main){
             if(!visibility)
@@ -78,13 +93,16 @@ class AuthViewModel @Inject constructor(
     fun getTeacherInfo(
         link: String,
     ){
-        viewModelScope.launch(Dispatchers.IO) {
-            val teacherInfo = authUseCases.getTeacherInfo(link)
-            withContext(Dispatchers.Main) {
-                if (teacherInfo != null)
-                    savedStateHandle["teacherInfo"] = teacherInfo
-                else {
-                    Log.e("TAG", "failed: Not a valid teacher profile link")
+        if(teacherLink.value!=link) {
+            savedStateHandle["link"] = link
+            viewModelScope.launch(Dispatchers.IO) {
+                val teacherInfo = authUseCases.getTeacherInfo(link)
+                withContext(Dispatchers.Main) {
+                    if (teacherInfo != null)
+                        savedStateHandle["teacherInfo"] = teacherInfo
+                    else {
+                        Log.e("TAG", "failed: Not a valid teacher profile link")
+                    }
                 }
             }
         }

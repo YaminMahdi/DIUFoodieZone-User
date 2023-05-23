@@ -64,8 +64,15 @@ class TeacherRegFragment : Fragment() {
         binding.teacherInfoCard.visibility = View.GONE
         binding.bottomInfo.visibility = View.GONE
 
+        var tmpLink = ""
+
         binding.link.addLiveTextListener{
+            tmpLink = it
             viewModel.getTeacherInfo(it)
+        }
+        viewModel.teacherLink.observe(requireActivity()){
+            if(it != tmpLink)
+                binding.link.setText(it)
         }
         viewModel.teacherInfo.observe(requireActivity()){user ->
             tmpUser = user
@@ -78,8 +85,10 @@ class TeacherRegFragment : Fragment() {
 
             user.pic.getDrawable { binding.pic.setImageDrawable(it) }
             binding.link.clearFocus()
-            val imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view?.rootView?.windowToken,0)
+            if(activity != null){
+                val imm = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view?.rootView?.windowToken,0)
+            }
         }
 
         binding.btnRegister.setBounceClickListener{

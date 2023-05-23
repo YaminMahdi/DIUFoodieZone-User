@@ -59,6 +59,9 @@ class LoginActivity : AppCompatActivity() {
         binding.signUpBtn.setBounceClickListener {
             startActivity(Intent(this,RegistrationActivity::class.java))
         }
+        binding.btnBack.setBounceClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
         viewModel.loadingVisibility.observe(this){
             binding.loadingLayout.visibility = if(it) View.VISIBLE else View.GONE
         }

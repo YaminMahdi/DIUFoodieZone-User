@@ -6,5 +6,6 @@ data class UserMainUseCases @Inject constructor(
     val getShopProfileList: GetShopProfileList,
     val getShopProfile: GetShopProfile,
     val getUserProfile: GetUserProfile,
-    val updateUserProfile: UpdateUserProfile
+    val updateUserProfile: UpdateUserProfile,
+    val getFoodDetails: GetFoodDetails
 )

@@ -22,12 +22,21 @@ class RegistrationActivity : AppCompatActivity() {
 
         val manager: FragmentManager = supportFragmentManager
 
+        viewModel.isLeftTabSelected.observe(this){
+            if (it)
+                binding.flipTab.selectLeftTab(false)
+            else
+                binding.flipTab.selectRightTab(false)
+        }
+
         binding.flipTab.setTabSelectedListener(object: FlipTab.TabSelectedListener {
             override fun onTabSelected(isLeftTab: Boolean, tabTextValue: String) {
                 if (isLeftTab){
+                    viewModel.setLeftTabSelected(true)
                     manager.beginTransaction()
                         .replace(binding.regFragment.id, StudentRegFragment()).commit()
                 }else{
+                    viewModel.setLeftTabSelected(false)
                     manager.beginTransaction()
                         .replace(binding.regFragment.id, TeacherRegFragment()).commit()
                 }

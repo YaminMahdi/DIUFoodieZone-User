@@ -16,6 +16,7 @@ import com.diu.mlab.foodie.zone.R
 import com.diu.mlab.foodie.zone.databinding.FragmentStudentRegBinding
 import com.diu.mlab.foodie.zone.databinding.FragmentTeacherRegBinding
 import com.diu.mlab.foodie.zone.domain.model.FoodieUser
+import com.diu.mlab.foodie.zone.util.addLiveTextListener
 import com.diu.mlab.foodie.zone.util.setBounceClickListener
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInCredential
@@ -63,10 +64,28 @@ class StudentRegFragment : Fragment() {
     ): View {
         binding = FragmentStudentRegBinding.inflate(inflater, container, false)
 
+        var id = ""
+        var pn = ""
+        viewModel.studentId.observe(requireActivity()){
+            if(id!=it)
+                binding.studentId.setText(it)
+        }
+        viewModel.studentPn.observe(requireActivity()){
+            if(pn!=it)
+                binding.pnNo.setText(it)
+        }
+        binding.studentId.addLiveTextListener {
+            id=it
+            viewModel.setStudentId(it)
+        }
+        binding.pnNo.addLiveTextListener {
+            pn=it
+            viewModel.setStudentPn(it)
+        }
         binding.btnRegister.setBounceClickListener{
             tmpUser = FoodieUser(
-                id = binding.studentId.text.toString(),
-                phone = binding.pnNo.text.toString(),
+                id = id,
+                phone = pn,
                 userType = "Student"
             )
             viewModel.googleSignIn(requireActivity(),resultLauncher, tmpUser){

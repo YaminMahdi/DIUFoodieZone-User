@@ -17,10 +17,23 @@
             android:background="@color/tia"
             android:orientation="vertical">
 
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_special_bg"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/whiteX"
+                android:contentDescription="@string/back"
+                />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="270dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="-50dp"
                 android:layout_marginBottom="-90dp"
                 android:contentDescription="@string/food"
                 android:src="@drawable/food_bg"

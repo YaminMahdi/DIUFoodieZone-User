@@ -7,7 +7,7 @@
     android:background="@color/tia"
     android:fitsSystemWindows="false"
     android:orientation="vertical"
-    tools:context=".presentation.user.ShopViewActivity">
+    tools:context=".presentation.main.ShopViewActivity">
 
     <FrameLayout
         android:id="@+id/frameLayout"

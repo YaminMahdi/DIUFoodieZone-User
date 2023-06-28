@@ -1,8 +1,9 @@
-package com.diu.mlab.foodie.zone.presentation.user
+package com.diu.mlab.foodie.zone.presentation.main
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -47,8 +48,8 @@ class FoodListViewAdapter(
 
                 val bundle = Bundle()
                 bundle.putString("shopEmail", shopEmail)
-                bundle.putString("foodId", list[position].key)
-
+                bundle.putString("foodId", list[position].foodId)
+                Log.d("TAG", "bindView: ${list[position].foodId}")
                 contest.startActivity(Intent(contest, ShopFoodViewActivity::class.java).putExtras(bundle))
             }
         }

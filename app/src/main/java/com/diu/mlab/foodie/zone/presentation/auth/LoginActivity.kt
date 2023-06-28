@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.diu.mlab.foodie.zone.R
 import com.diu.mlab.foodie.zone.databinding.ActivityLoginBinding
+import com.diu.mlab.foodie.zone.presentation.main.UserMainActivity
 import com.diu.mlab.foodie.zone.util.setBounceClickListener
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInCredential
@@ -29,7 +30,8 @@ class LoginActivity : AppCompatActivity() {
             val credential: SignInCredential = Identity.getSignInClient(this).getSignInCredentialFromIntent(data)
             viewModel.firebaseLogin(credential,{
                 viewModel.setLoadingVisibility(false)
-                //startActivity(Intent(this,AdminMainActivity::class.java))
+                startActivity(Intent(this,UserMainActivity::class.java))
+                finish()
             }){
                 Log.e("TAG", "failed: $it")
                 MainScope().launch {

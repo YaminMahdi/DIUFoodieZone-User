@@ -1,7 +1,6 @@
-package com.diu.mlab.foodie.zone.presentation.user
+package com.diu.mlab.foodie.zone.presentation.main
 
 import android.os.Bundle
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity

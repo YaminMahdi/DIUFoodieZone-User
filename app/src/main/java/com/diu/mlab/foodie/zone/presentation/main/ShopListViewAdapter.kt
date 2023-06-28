@@ -1,17 +1,14 @@
-package com.diu.mlab.foodie.zone.presentation.user
+package com.diu.mlab.foodie.zone.presentation.main
 
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.diu.mlab.foodie.zone.databinding.ItemShopBinding
 import com.diu.mlab.foodie.zone.domain.model.ShopProfile
-import com.diu.mlab.foodie.zone.presentation.auth.LoginActivity
 import com.diu.mlab.foodie.zone.util.getDrawable
-import com.diu.mlab.foodie.zone.util.setBounceClickListener
 
 class ShopListViewAdapter(
     private val shopList: List<ShopProfile>,

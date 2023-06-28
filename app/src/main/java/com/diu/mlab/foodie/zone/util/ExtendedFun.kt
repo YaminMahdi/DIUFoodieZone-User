@@ -21,6 +21,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.net.URL
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @SuppressLint("ClickableViewAccessibility")
@@ -88,7 +90,9 @@ fun String.getDrawable( success : (Drawable?) -> Unit) {
             }
         } catch (e: Exception) {
             Log.d("Exception", "getDrawable: $e")
-            success.invoke(null)
+            withContext(Dispatchers.Main) {
+                success.invoke(null)
+            }
         }
     }
 }
@@ -96,6 +100,13 @@ fun String.getDrawable( success : (Drawable?) -> Unit) {
 fun Activity.changeStatusBarColor(colorId: Int, isLight: Boolean) {
     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     window.statusBarColor = getColor(colorId)
+
+    WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = isLight
+}
+
+fun Activity.changeNavBarColor(colorId: Int, isLight: Boolean) {
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    window.navigationBarColor = getColor(colorId)
 
     WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = isLight
 }
@@ -118,4 +129,12 @@ fun Context.copyUriToFile(uri: Uri): File {
         }
     }
     return outputFile
+}
+
+fun Long.toDateTime(): String{
+    var date = SimpleDateFormat("dd MMM, hh:mm a", Locale.US).format(this)
+    val day = SimpleDateFormat("dd", Locale.US).format(System.currentTimeMillis())
+    if (day.toInt() == date.split(" ")[0].toInt())
+        date = date.split(", ")[1]
+    return date.toString()
 }

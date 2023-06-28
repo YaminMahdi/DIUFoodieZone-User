@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.main.HomeFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.main.CartFragment"
     android:orientation="vertical"
     >
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/find_food"
+        android:text="@string/cart"
         android:fontFamily="@font/ubuntu_bold"
-        android:textSize="25sp"
+        android:textSize="27sp"
         android:textColor="@color/darkX"
         android:layout_margin="16dp"
         />
-<!--    <View-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="2dp"-->
-<!--        android:background="@color/white"-->
-<!--        />-->
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/shopRecyclerView"
+        android:id="@+id/cartRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="6dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
+
 </LinearLayout>

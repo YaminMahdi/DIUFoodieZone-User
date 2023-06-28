@@ -9,9 +9,9 @@
     android:background="@color/whiteX"
 
     >
-    <fragment
-        android:id="@+id/nav_host_fragment_content_user_main"
-        android:name="com.diu.mlab.foodie.zone.presentation.user.HomeFragment"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/mainFragment"
+        android:name="com.diu.mlab.foodie.zone.presentation.main.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/meowNav"

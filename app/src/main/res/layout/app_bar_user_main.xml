@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.user.UserMainActivity">
+    tools:context=".presentation.main.UserMainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -50,11 +50,7 @@
                     />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/white"
-            />
+
 
 <!--        <androidx.appcompat.widget.Toolbar-->
 <!--            android:id="@+id/toolbar"-->

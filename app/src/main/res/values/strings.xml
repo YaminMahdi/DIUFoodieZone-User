@@ -24,5 +24,8 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="taha">৳</string>
+    <string name="mul">×</string>
+    <string name="cart">Cart</string>
+    <string name="find_food">Find Food</string>
     <bool name="isDarkDisable">true</bool>
 </resources>

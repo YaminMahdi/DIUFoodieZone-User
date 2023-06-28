@@ -19,6 +19,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.diu.mlab.foodie.zone.databinding.FragmentTeacherRegBinding
 import com.diu.mlab.foodie.zone.domain.model.FoodieUser
+import com.diu.mlab.foodie.zone.presentation.main.UserMainActivity
 import com.diu.mlab.foodie.zone.util.addLiveTextListener
 import com.diu.mlab.foodie.zone.util.getDrawable
 import com.diu.mlab.foodie.zone.util.setBounceClickListener
@@ -41,7 +42,8 @@ class TeacherRegFragment : Fragment() {
             Log.d("TAG", "working")
             viewModel.firebaseSignup(credential, tmpUser,{
                 viewModel.setLoadingVisibility(false)
-                //startActivity(Intent(this,AdminMainActivity::class.java))
+                startActivity(Intent(requireContext(), UserMainActivity::class.java))
+                requireActivity().finish()
                 Toast.makeText(requireContext(), "Signup successful", Toast.LENGTH_SHORT).show()
             }){
                 Log.e("TAG", "failed: $it")

@@ -70,7 +70,8 @@ class AuthRepoImpl @Inject constructor(
         success: () -> Unit,
         failed: (msg: String) -> Unit
     ) {
-        val path = firestore.collection("userProfiles").document(credential.id.transformedEmailId())
+        val email = credential.id.transformedEmailId()
+        val path = firestore.collection("userProfiles").document(email)
         val authCredential = GoogleAuthProvider.getCredential(credential.googleIdToken, null)
         auth.signInWithCredential(authCredential)
             .addOnCompleteListener { task ->
@@ -85,7 +86,7 @@ class AuthRepoImpl @Inject constructor(
                                 //val user = document.toObject(FoodieUser::class.java)!!
                                 failed.invoke("User already exist.")
                             } else {
-                                path.set(user)
+                                path.set(user.copy(email = email ))
                                     .addOnSuccessListener {
                                         Log.d("TAG", "DocumentSnapshot successfully written!")
                                         success.invoke()

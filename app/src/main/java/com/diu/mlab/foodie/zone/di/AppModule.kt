@@ -2,10 +2,13 @@ package com.diu.mlab.foodie.zone.di
 
 import android.content.Context
 import com.diu.mlab.foodie.zone.data.repo.AuthRepoImpl
+import com.diu.mlab.foodie.zone.data.repo.OrderRepoImpl
 import com.diu.mlab.foodie.zone.data.repo.UserMainRepoImpl
 import com.diu.mlab.foodie.zone.domain.repo.AuthRepo
+import com.diu.mlab.foodie.zone.domain.repo.OrderRepo
 import com.diu.mlab.foodie.zone.domain.repo.UserMainRepo
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -24,6 +27,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    fun provideFirebaseUser() = Firebase.auth.currentUser
 
     @Provides
     @Singleton
@@ -47,7 +54,8 @@ object AppModule {
         firebaseAuth: FirebaseAuth,
         firestore: FirebaseFirestore,
         storage: FirebaseStorage,
-        @ApplicationContext context: Context): AuthRepo =
+        @ApplicationContext context: Context
+    ): AuthRepo =
         AuthRepoImpl(firebaseAuth, firestore, storage, context)
 
     @Provides
@@ -56,7 +64,18 @@ object AppModule {
         realtime: FirebaseDatabase,
         firestore: FirebaseFirestore,
         storage: FirebaseStorage,
-        @ApplicationContext context: Context): UserMainRepo =
+        @ApplicationContext context: Context
+    ): UserMainRepo =
         UserMainRepoImpl(realtime, firestore, storage, context)
+
+    @Provides
+    @Singleton
+    fun provideOrderRepo(
+        realtime: FirebaseDatabase,
+        firestore: FirebaseFirestore,
+        firebaseUser: FirebaseUser?,
+        @ApplicationContext context: Context
+    ): OrderRepo =
+        OrderRepoImpl(realtime, firestore, firebaseUser, context)
 
 }

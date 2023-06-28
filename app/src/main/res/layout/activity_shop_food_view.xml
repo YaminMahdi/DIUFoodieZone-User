@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/tia"
     android:fitsSystemWindows="false"
-    tools:context=".presentation.user.ShopFoodViewActivity">
+    tools:context=".presentation.main.ShopFoodViewActivity">
 
     <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
     <!--        android:id="@+id/constraintLayout"-->

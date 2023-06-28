@@ -17,7 +17,7 @@
         app:cardElevation="0dp"
         >
         <ImageView
-            android:id="@+id/pic"
+            android:id="@+id/userPic"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_gravity="center"
@@ -31,6 +31,7 @@
 
 
     <TextView
+        android:id="@+id/userName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"

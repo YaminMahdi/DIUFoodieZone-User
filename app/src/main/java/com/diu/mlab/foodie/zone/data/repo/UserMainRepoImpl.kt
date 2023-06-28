@@ -56,7 +56,8 @@ class UserMainRepoImpl @Inject constructor(
                 override fun onChildRemoved(snapshot: DataSnapshot) {}
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
                 override fun onCancelled(error: DatabaseError) {}
-            })    }
+            })
+    }
 
     override fun getShopProfile(
         shopEmail: String,
@@ -66,19 +67,16 @@ class UserMainRepoImpl @Inject constructor(
         val shopProfile = ShopProfile()
         realtime
             .getReference("shopProfile").child(shopEmail)
-            .addChildEventListener(object: ChildEventListener {
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+            .addValueEventListener(object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
                     shopProfile.shopInfo = snapshot.child("info").getValue<ShopInfo>()!!
                     val foods = mutableListOf<FoodItem>()
                     snapshot.child("foodList").children.forEach {
                         foods.add(it.getValue<FoodItem>()!!)
                     }
                     shopProfile.foodList = foods
-                    success.invoke(shopProfile)
-                }
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
-                override fun onChildRemoved(snapshot: DataSnapshot) {}
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
+                    success.invoke(shopProfile)                }
+
                 override fun onCancelled(error: DatabaseError) {}
             })
     }

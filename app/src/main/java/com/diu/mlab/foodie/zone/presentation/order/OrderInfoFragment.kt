@@ -21,7 +21,6 @@ class OrderInfoFragment : Fragment() {
 
     private val viewModel by activityViewModels<OrderViewModel>()
     lateinit var orderInfo: OrderInfo
-    private var once = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,9 +38,8 @@ class OrderInfoFragment : Fragment() {
             binding.precessRecyclerView.adapter = adapter
 //            adapter.notifyDataSetChanged()
 
-            if( lst.map{it.first}.contains("Food Delivered") && once) {
+            if( lst.map{it.first}.contains("Food Delivered") && !lst.map{it.first}.contains("Food Received")) {
                 binding.foodConfirmation.visibility = View.VISIBLE
-                once = false
             }
 
             if( lst.map{it.first}.contains("Canceled") || lst.map{it.first}.contains("Food Received"))

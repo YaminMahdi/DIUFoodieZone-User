@@ -33,7 +33,7 @@ class PaymentFragment : Fragment() {
             binding.shopNm.text = it.shopInfo.nm
             binding.shopBkashNo.text = it.shopInfo.phone
             binding.money.text = "${it.typePrice * it.quantity + it.deliveryCharge}"
-            binding.paymentType.text = it.shopInfo.phone
+            binding.paymentType.text = it.shopInfo.paymentType
 
         }
 

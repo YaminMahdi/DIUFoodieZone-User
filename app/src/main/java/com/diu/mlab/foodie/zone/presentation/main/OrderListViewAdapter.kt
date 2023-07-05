@@ -51,7 +51,7 @@ class OrderListViewAdapter(
                 binding.orderStatusTxt.text = "Payment Failed"
             else if(list[position].isPaid)
                 binding.orderStatusTxt.text = "Processing"
-            else if(!list[position].isPaid && list[position].paymentTime != 0L)
+            else if(!list[position].isPaid && list[position].paymentTime == 0L)
                 binding.orderStatusTxt.text = "Not Paid"
             else
                 binding.orderStatusTxt.text = "Processing"

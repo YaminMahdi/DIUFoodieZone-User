@@ -1,26 +1,16 @@
 package com.diu.mlab.foodie.zone.data.repo
 
-import android.content.Context
 import com.diu.mlab.foodie.zone.domain.model.OrderInfo
 import com.diu.mlab.foodie.zone.domain.repo.OrderRepo
 import com.diu.mlab.foodie.zone.util.transformedEmailId
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import javax.inject.Inject
 
 class OrderRepoImpl @Inject constructor(
     private val realtime: FirebaseDatabase,
-    private val firestore: FirebaseFirestore,
     private val firebaseUser: FirebaseUser?,
-    private val context: Context
     ): OrderRepo {
     private val userEmail = firebaseUser?.email?.transformedEmailId().toString()
     override fun getOrderInfo(
@@ -54,7 +44,7 @@ class OrderRepoImpl @Inject constructor(
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     val info = snapshot.getValue<OrderInfo>()!!
-                    myOrderList.add(info)
+                    myOrderList.add(0,info)
                     success.invoke(myOrderList)
                 }
 
@@ -62,6 +52,15 @@ class OrderRepoImpl @Inject constructor(
                     snapshot: DataSnapshot,
                     previousChildName: String?
                 ) {
+                    val info = snapshot.getValue<OrderInfo>()!!
+                    myOrderList.forEachIndexed { index, orderInfo ->
+                        if(orderInfo.orderId == previousChildName){
+                            success.invoke(myOrderList.toMutableList().apply {
+                                removeAt(index)
+                                add(index,info)
+                            })
+                        }
+                    }
                 }
 
                 override fun onChildRemoved(snapshot: DataSnapshot) {}
@@ -140,12 +139,7 @@ class OrderRepoImpl @Inject constructor(
                 .child(orderId)
                 .child(varBoolName)
                 .setValue(value)
-                .addOnSuccessListener {
-                    success.invoke()
-                }
-                .addOnFailureListener {
-                    failed.invoke(it.message.toString())
-                }
+
             realtime
                 .getReference("orderInfo/shop")
                 .child(shopEmail)
@@ -153,6 +147,13 @@ class OrderRepoImpl @Inject constructor(
                 .child(orderId)
                 .child(varBoolName)
                 .setValue(value)
+                .addOnSuccessListener {
+                    success.invoke()
+                }
+                .addOnFailureListener {
+                    failed.invoke(it.message.toString())
+                }
+
 
             val time = System.currentTimeMillis()
             realtime

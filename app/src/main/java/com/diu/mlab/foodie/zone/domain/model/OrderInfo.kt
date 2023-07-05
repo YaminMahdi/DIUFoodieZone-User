@@ -9,7 +9,7 @@ data class OrderInfo(
     var userInfo: FoodieUser = FoodieUser(),
     var shopInfo: ShopInfo = ShopInfo(),
     var foodInfo: FoodItem = FoodItem(),
-    var runnerInfo: String = "", //object
+    var runnerInfo: FoodieUser = FoodieUser(), //object
     var quantity: Int = 0,
     var type: String = "",
     var typePrice: Int = 0,

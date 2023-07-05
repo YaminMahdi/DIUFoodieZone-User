@@ -72,10 +72,8 @@ object AppModule {
     @Singleton
     fun provideOrderRepo(
         realtime: FirebaseDatabase,
-        firestore: FirebaseFirestore,
         firebaseUser: FirebaseUser?,
-        @ApplicationContext context: Context
     ): OrderRepo =
-        OrderRepoImpl(realtime, firestore, firebaseUser, context)
+        OrderRepoImpl(realtime, firebaseUser)
 
 }

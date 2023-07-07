@@ -42,6 +42,7 @@ class CartListViewAdapter(
             binding.btnOrder.setOnClickListener {
                 bundle.putString("currentType", list[position].type)
                 bundle.putInt("currentTypePrice", list[position].typePrice)
+                bundle.putInt("quantity", list[position].quantity)
                 if(Firebase.auth.currentUser != null)
                     contest.startActivity(Intent(contest, OrderActivity::class.java).putExtras(bundle))
                 else {

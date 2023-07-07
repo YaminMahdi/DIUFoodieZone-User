@@ -101,11 +101,12 @@ class OrderViewModel @Inject constructor(
         value: Boolean,
         varTimeName: String,
         shopEmail: String,
+        runnerEmail: String ="",
         success :() -> Unit,
         failed :(msg : String) -> Unit
     ){
         viewModelScope.launch(Dispatchers.IO) {
-            orderUseCases.updateOrderInfo(orderInfo.value!!.orderId, varBoolName, value, varTimeName, shopEmail, success, failed)
+            orderUseCases.updateOrderInfo(orderInfo.value!!.orderId, varBoolName, value, varTimeName, shopEmail, runnerEmail, success, failed)
         }
     }
 

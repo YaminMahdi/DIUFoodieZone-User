@@ -16,11 +16,12 @@ class UpdateOrderInfo @Inject constructor (
         value: Boolean,
         varTimeName: String,
         shopEmail: String,
+        runnerEmail: String,
         success :() -> Unit,
         failed :(msg : String) -> Unit
     ) {
         if(orderId.isNotEmpty())
-            repo.updateOrderInfo(orderId, varBoolName, value, varTimeName, shopEmail, success, failed)
+            repo.updateOrderInfo(orderId, varBoolName, value, varTimeName, shopEmail, runnerEmail, success, failed)
         else
             failed.invoke("Something went wrong")
     }

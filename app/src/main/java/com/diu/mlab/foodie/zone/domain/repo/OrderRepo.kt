@@ -17,6 +17,7 @@ interface OrderRepo {
         value: Boolean,
         varTimeName: String,
         shopEmail: String,
+        runnerEmail: String,
         success :() -> Unit,
         failed :(msg : String) -> Unit
     )

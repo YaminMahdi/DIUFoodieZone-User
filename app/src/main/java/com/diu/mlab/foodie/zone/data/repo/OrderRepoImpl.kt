@@ -12,12 +12,13 @@ class OrderRepoImpl @Inject constructor(
     private val realtime: FirebaseDatabase,
     private val firebaseUser: FirebaseUser?,
     ): OrderRepo {
-    private val userEmail = firebaseUser?.email?.transformedEmailId().toString()
     override fun getOrderInfo(
         orderId: String,
         success: (orderInfo: OrderInfo) -> Unit,
         failed: (msg: String) -> Unit
     ) {
+        val userEmail = firebaseUser?.email?.transformedEmailId().toString()
+
         if(firebaseUser != null) {
             realtime
                 .getReference("orderInfo/all").child(userEmail).child(orderId)
@@ -38,6 +39,8 @@ class OrderRepoImpl @Inject constructor(
         success: (orderInfoList: List<OrderInfo>) -> Unit,
         failed: (msg: String) -> Unit
     ) {
+        val userEmail = firebaseUser?.email?.transformedEmailId().toString()
+
         val myOrderList = mutableListOf<OrderInfo>()
         realtime
             .getReference("orderInfo/all").child(userEmail)
@@ -76,6 +79,8 @@ class OrderRepoImpl @Inject constructor(
         success: (orderInfo: OrderInfo) -> Unit,
         failed: (msg: String) -> Unit
     ) {
+        val userEmail = firebaseUser?.email?.transformedEmailId().toString()
+
         if(firebaseUser != null) {
             val ref = realtime.getReference("orderInfo/current")
             val orderId = ref.push().key!!
@@ -123,9 +128,12 @@ class OrderRepoImpl @Inject constructor(
         value: Boolean,
         varTimeName: String,
         shopEmail: String,
+        runnerEmail: String,
         success: () -> Unit,
         failed: (msg: String) -> Unit
     ) {
+        val userEmail = firebaseUser?.email?.transformedEmailId().toString()
+
         if(firebaseUser != null) {
             realtime
                 .getReference("orderInfo/all")
@@ -133,26 +141,6 @@ class OrderRepoImpl @Inject constructor(
                 .child(orderId)
                 .child(varBoolName)
                 .setValue(value)
-
-            realtime
-                .getReference("orderInfo/current")
-                .child(orderId)
-                .child(varBoolName)
-                .setValue(value)
-
-            realtime
-                .getReference("orderInfo/shop")
-                .child(shopEmail)
-                .child("current")
-                .child(orderId)
-                .child(varBoolName)
-                .setValue(value)
-                .addOnSuccessListener {
-                    success.invoke()
-                }
-                .addOnFailureListener {
-                    failed.invoke(it.message.toString())
-                }
 
 
             val time = System.currentTimeMillis()
@@ -162,18 +150,118 @@ class OrderRepoImpl @Inject constructor(
                 .child(orderId)
                 .child(varTimeName)
                 .setValue(time)
-            realtime
-                .getReference("orderInfo/current")
-                .child(orderId)
-                .child(varTimeName)
-                .setValue(time)
-            realtime
-                .getReference("orderInfo/shop")
-                .child(shopEmail)
-                .child("current")
-                .child(orderId)
-                .child(varTimeName)
-                .setValue(time)
+
+
+            if(varTimeName != "userReceivedTime"){
+                realtime
+                    .getReference("orderInfo/current")
+                    .child(orderId)
+                    .child(varBoolName)
+                    .setValue(value)
+                realtime
+                    .getReference("orderInfo/current")
+                    .child(orderId)
+                    .child(varTimeName)
+                    .setValue(time)
+
+                realtime
+                    .getReference("orderInfo/shop")
+                    .child(shopEmail)
+                    .child("current")
+                    .child(orderId)
+                    .child(varBoolName)
+                    .setValue(value)
+                    .addOnSuccessListener {
+                        success.invoke()
+                    }
+                    .addOnFailureListener {
+                        failed.invoke(it.message.toString())
+                    }
+
+                realtime
+                    .getReference("orderInfo/shop")
+                    .child(shopEmail)
+                    .child("current")
+                    .child(orderId)
+                    .child(varTimeName)
+                    .setValue(time)
+            }
+            else{
+                realtime.getReference("orderInfo/current").child(orderId)
+                    .addValueEventListener(object : ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if(!snapshot.exists() && runnerEmail.isNotEmpty()){
+                                realtime
+                                    .getReference("orderInfo/runner")
+                                    .child(runnerEmail)
+                                    .child(orderId)
+                                    .child(varBoolName)
+                                    .setValue(value)
+                                realtime
+                                    .getReference("orderInfo/runner")
+                                    .child(runnerEmail)
+                                    .child(orderId)
+                                    .child(varTimeName)
+                                    .setValue(time)
+                            }
+                            else if(snapshot.exists()){
+                                realtime
+                                    .getReference("orderInfo/current")
+                                    .child(orderId)
+                                    .child(varBoolName)
+                                    .setValue(value)
+                                realtime
+                                    .getReference("orderInfo/current")
+                                    .child(orderId)
+                                    .child(varTimeName)
+                                    .setValue(time)
+                            }
+                        }
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+
+                realtime.getReference("orderInfo/shop")
+                    .child(shopEmail)
+                    .child("current")
+                    .child(orderId)
+                    .addValueEventListener(object : ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if(!snapshot.exists()){
+                                realtime
+                                    .getReference("orderInfo/shop")
+                                    .child(shopEmail)
+                                    .child("old")
+                                    .child(orderId)
+                                    .child(varBoolName)
+                                    .setValue(value)
+                                realtime
+                                    .getReference("orderInfo/shop")
+                                    .child(shopEmail)
+                                    .child("old")
+                                    .child(orderId)
+                                    .child(varTimeName)
+                                    .setValue(time)
+                            }
+                            else{
+                                realtime
+                                    .getReference("orderInfo/shop")
+                                    .child(shopEmail)
+                                    .child("current")
+                                    .child(orderId)
+                                    .child(varBoolName)
+                                    .setValue(value)
+                                realtime
+                                    .getReference("orderInfo/shop")
+                                    .child(shopEmail)
+                                    .child("current")
+                                    .child(orderId)
+                                    .child(varTimeName)
+                                    .setValue(time)
+                            }
+                        }
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }
         }
     }
 }

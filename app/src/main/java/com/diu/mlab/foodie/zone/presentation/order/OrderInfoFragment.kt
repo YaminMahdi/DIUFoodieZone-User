@@ -52,6 +52,7 @@ class OrderInfoFragment : Fragment() {
                 value = true,
                 varTimeName = "userReceivedTime",
                 shopEmail = orderInfo.shopInfo.email,
+                runnerEmail = orderInfo.runnerInfo.email,
                 success = {},
                 failed = {}
             )
@@ -64,6 +65,7 @@ class OrderInfoFragment : Fragment() {
                 value = false,
                 varTimeName = "userReceivedTime",
                 shopEmail = orderInfo.shopInfo.email,
+                runnerEmail = orderInfo.runnerInfo.email,
                 success = {},
                 failed = {}
             )

@@ -32,41 +32,62 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:gravity="center_vertical"
-                android:layout_marginVertical="5dp"
                 android:paddingTop="5dp"
+
                 >
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="25dp"
-                    app:cardElevation="0dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginVertical="5dp"
                     >
-                    <ImageView
-                        android:id="@+id/logo"
-                        android:layout_width="34dp"
-                        android:layout_height="34dp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/logo"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_profile"
-                        android:background="@color/whiteY"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="25dp"
+                        app:cardElevation="0dp"
+                        >
+                        <ImageView
+                            android:id="@+id/logo"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/logo"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_profile"
+                            android:background="@color/whiteY"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/shopNm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="7dp"
-                    android:text="Ganza Shop"
-                    android:fontFamily="@font/ubuntu_bold"
-                    android:textSize="14sp"
+                    <TextView
+                        android:id="@+id/shopNm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:text="Ganza Shop"
+                        android:fontFamily="@font/ubuntu_bold"
+                        android:textSize="14sp"
+                        android:textColor="@color/darkX"
+                        />
 
-                    android:textColor="@color/darkX"
+                </LinearLayout>
+                <ImageButton
+                    android:id="@+id/qr"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/logo"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_qr_code"
+                    android:padding="3dp"
+                    android:background="@drawable/btn_special_blck_bg"
                     />
+
+
 
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView

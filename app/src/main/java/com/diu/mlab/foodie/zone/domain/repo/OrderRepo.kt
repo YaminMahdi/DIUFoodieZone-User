@@ -23,4 +23,11 @@ interface OrderRepo {
     )
 
 
+    fun updatePaymentType(
+        orderId: String,
+        type: String,
+        shopEmail: String,
+        success: () -> Unit,
+        failed: (msg: String) -> Unit
+    )
 }

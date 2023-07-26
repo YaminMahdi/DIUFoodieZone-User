@@ -153,3 +153,14 @@ fun Long.toDateTime(): String{
         date = date.split(", ")[1]
     return date.toString()
 }
+
+fun Int.getDeliveryCharge(): Int =
+    if(this<45) 5
+    else if(this<85) 10
+    else if(this<125) 20
+    else if(this<165) 25
+    else if(this<205) 30
+    else if(this<245) 35
+    else if(this<285) 40
+    else if(this<325) 45
+    else 50

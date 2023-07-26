@@ -110,4 +110,15 @@ class OrderViewModel @Inject constructor(
         }
     }
 
+    val isLeftTabSelected= savedStateHandle.getLiveData<Boolean>("leftTabSelected")
+    fun setLeftTabSelected(isSelected: Boolean){
+        savedStateHandle["leftTabSelected"] = isSelected
+    }
+
+    fun updatePaymentType(type: String, shopEmail: String, success: () -> Unit, failed :(msg : String) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            orderUseCases.updatePaymentType(orderInfo.value!!.orderId, type, shopEmail, success, failed)
+        }
+    }
+
 }

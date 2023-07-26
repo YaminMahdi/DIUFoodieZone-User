@@ -6,5 +6,6 @@ data class OrderUseCases @Inject constructor(
     val getOrderInfo: GetOrderInfo,
     val getMyOrderList: GetMyOrderList,
     val placeOrder: PlaceOrder,
-    val updateOrderInfo: UpdateOrderInfo
+    val updateOrderInfo: UpdateOrderInfo,
+    val updatePaymentType: UpdatePaymentType
 )

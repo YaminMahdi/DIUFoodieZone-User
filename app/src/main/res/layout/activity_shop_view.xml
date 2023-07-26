@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp"
-            android:orientation="vertical">
+            >
 
             <ImageButton
                 android:id="@+id/btnBack"
@@ -39,6 +39,23 @@
                 android:padding="10dp"
                 android:src="@drawable/ic_arrow_back"
                 app:tint="@color/whiteX" />
+
+            <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/qr"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_special_bg"
+                android:contentDescription="@string/logo"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_qr_code"
+                app:tint="@color/whiteX"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
 
@@ -94,7 +111,6 @@
             android:fontFamily="@font/ubuntu_bold"
             android:text="Ganza Shop"
             android:textColor="@color/darkX"
-
             android:textSize="14sp" />
 
     </LinearLayout>

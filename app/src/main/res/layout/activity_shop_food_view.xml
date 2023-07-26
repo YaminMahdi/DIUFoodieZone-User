@@ -54,6 +54,8 @@
         android:translationZ="3dp"
         app:tint="@color/whiteX" />
 
+
+
     <ImageView
         android:id="@+id/foodImageView"
         android:layout_width="match_parent"

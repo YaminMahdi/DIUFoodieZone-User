@@ -12,6 +12,7 @@ import com.diu.mlab.foodie.zone.databinding.FragmentCartBinding
 import com.diu.mlab.foodie.zone.databinding.FragmentOrderConfirmationBinding
 import com.diu.mlab.foodie.zone.domain.model.OrderInfo
 import com.diu.mlab.foodie.zone.presentation.main.UserMainViewModel
+import com.diu.mlab.foodie.zone.util.getDeliveryCharge
 import com.diu.mlab.foodie.zone.util.getDrawable
 import com.diu.mlab.foodie.zone.util.setBounceClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,23 +33,23 @@ class OrderConfirmationFragment : Fragment() {
 
         binding = FragmentOrderConfirmationBinding.inflate(inflater, container, false)
 
-        viewModel.orderInfo.observe(requireActivity()){ orderInf ->
-            orderInfo = orderInf
-            orderInfo.deliveryCharge = 50
-            if(orderInf.foodInfo.nm.isNotEmpty()){
-                binding.foodInfo.nm.text = orderInf.foodInfo.nm
-                binding.foodInfo.time.text = orderInf.foodInfo.time
+        viewModel.orderInfo.observe(requireActivity()){ info->
+            orderInfo = info
+            var totalPrice = orderInfo.typePrice * orderInfo.quantity
+            orderInfo.deliveryCharge = totalPrice.getDeliveryCharge()
+            totalPrice += orderInfo.deliveryCharge
+            if(orderInfo.foodInfo.nm.isNotEmpty()){
+                binding.foodInfo.nm.text = orderInfo.foodInfo.nm
+                binding.foodInfo.time.text = orderInfo.foodInfo.time
                 binding.foodInfo.priceCard.visibility = View.GONE
 
-                orderInf.foodInfo.pic.getDrawable { binding.foodInfo.pic.setImageDrawable(it) }
-                binding.type.text = orderInf.type
-                binding.unitPrice.text = orderInf.typePrice.toString()
-                binding.quantity.text = orderInf.quantity.toString()
+                orderInfo.foodInfo.pic.getDrawable { binding.foodInfo.pic.setImageDrawable(it) }
+                binding.type.text = orderInfo.type
+                binding.unitPrice.text = orderInfo.typePrice.toString()
+                binding.quantity.text = orderInfo.quantity.toString()
                 binding.charge.text = orderInfo.deliveryCharge.toString()
-                binding.totalPrice.text = "${orderInf.typePrice * orderInf.quantity + orderInfo.deliveryCharge}"
-                binding.address.text = orderInf.userInfo.loc
-
-                orderInfo.deliveryCharge = 50
+                binding.totalPrice.text = totalPrice.toString()
+                binding.address.text = orderInfo.userInfo.loc
             }
         }
 

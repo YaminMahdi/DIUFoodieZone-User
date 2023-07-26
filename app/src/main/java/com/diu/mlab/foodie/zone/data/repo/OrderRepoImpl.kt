@@ -122,6 +122,45 @@ class OrderRepoImpl @Inject constructor(
         }
     }
 
+    override fun updatePaymentType(
+        orderId: String,
+        type: String,
+        shopEmail: String,
+        success: () -> Unit,
+        failed: (msg: String) -> Unit
+    ){
+        val userEmail = firebaseUser?.email?.transformedEmailId().toString()
+        if(firebaseUser != null) {
+            realtime
+                .getReference("orderInfo/all")
+                .child(userEmail)
+                .child(orderId)
+                .child("paymentType")
+                .setValue(type)
+
+            realtime
+                .getReference("orderInfo/current")
+                .child(orderId)
+                .child("paymentType")
+                .setValue(type)
+
+            realtime
+                .getReference("orderInfo/shop")
+                .child(shopEmail)
+                .child("current")
+                .child(orderId)
+                .child("paymentType")
+                .setValue(type)
+                .addOnSuccessListener {
+                    success.invoke()
+                }
+                .addOnFailureListener {
+                    failed.invoke(it.message.toString())
+                }
+        }
+
+    }
+
     override fun updateOrderInfo(
         orderId: String,
         varBoolName: String,

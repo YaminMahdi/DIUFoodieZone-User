@@ -12,6 +12,7 @@ data class SuperUser(
     val status: String="",
     val pic: String="",
     val cover: String="",
+    val qr: String= "",
     val loc: String=""
 
 ) : Parcelable{
@@ -22,6 +23,7 @@ data class SuperUser(
         paymentType = paymentType,
         pic = pic,
         cover = cover,
+        qr = qr,
         loc = loc,
         visible = visible
     )
@@ -34,6 +36,7 @@ data class SuperUser(
         status = this.status,
         pic = shopInfo.pic,
         cover = shopInfo.cover,
+        qr = shopInfo.qr,
         loc = shopInfo.loc
     )
 

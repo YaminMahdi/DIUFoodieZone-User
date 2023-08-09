@@ -114,6 +114,7 @@ class ShopFoodViewActivity : AppCompatActivity() {
 
         binding.btnCart.setBounceClickListener {
             if(currentFood.status != "Unavailable") {
+                Toast.makeText(this, "Food Added to Cart", Toast.LENGTH_SHORT).show()
                 CartFragment.cartList.add(
                     CartItem(
                         currentFood,
@@ -124,19 +125,23 @@ class ShopFoodViewActivity : AppCompatActivity() {
                     )
                 )
             }
+            else{
+                Toast.makeText(this, "Food Not Available", Toast.LENGTH_SHORT).show()
+            }
         }
         binding.btnOrder.setBounceClickListener {
-            bundle.putString("currentType", currentType)
-            bundle.putInt("currentTypePrice", currentTypePrice)
-            bundle.putInt("quantity", quantity)
+            if(currentFood.status != "Unavailable") {
+                bundle.putString("currentType", currentType)
+                bundle.putInt("currentTypePrice", currentTypePrice)
+                bundle.putInt("quantity", quantity)
 
-            if(Firebase.auth.currentUser != null)
-                startActivity(Intent(this, OrderActivity::class.java).putExtras(bundle))
-            else {
-                Toast.makeText(this, "You must login first", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, LoginActivity::class.java))
+                if(Firebase.auth.currentUser != null)
+                    startActivity(Intent(this, OrderActivity::class.java).putExtras(bundle))
+                else {
+                    Toast.makeText(this, "You must login first", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                }
             }
-
         }
 
         binding.btnBack.setBounceClickListener {

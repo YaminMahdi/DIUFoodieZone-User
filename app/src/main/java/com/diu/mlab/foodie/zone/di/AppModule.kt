@@ -1,6 +1,7 @@
 package com.diu.mlab.foodie.zone.di
 
 import android.content.Context
+import com.diu.mlab.foodie.zone.data.data_source.NotificationApi
 import com.diu.mlab.foodie.zone.data.repo.AuthRepoImpl
 import com.diu.mlab.foodie.zone.data.repo.OrderRepoImpl
 import com.diu.mlab.foodie.zone.data.repo.UserMainRepoImpl
@@ -22,7 +23,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -73,7 +79,25 @@ object AppModule {
     fun provideOrderRepo(
         realtime: FirebaseDatabase,
         firebaseUser: FirebaseUser?,
+        api: NotificationApi,
+        @ApplicationContext context: Context
     ): OrderRepo =
-        OrderRepoImpl(realtime, firebaseUser)
+        OrderRepoImpl(realtime, firebaseUser, api, context)
+
+    @Provides
+    @Singleton
+    fun providePortalApi(): NotificationApi{
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+        return Retrofit.Builder()
+            .baseUrl(NotificationApi.BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(NotificationApi::class.java)
+    }
+
 
 }

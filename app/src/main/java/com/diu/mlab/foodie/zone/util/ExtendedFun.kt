@@ -17,6 +17,9 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.documentfile.provider.DocumentFile
+import com.diu.mlab.foodie.zone.R
+import com.google.auth.http.HttpTransportFactory
+import com.google.auth.oauth2.GoogleCredentials
 import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileOutputStream
@@ -78,6 +81,15 @@ fun TextView.addLiveTextListener(onClick: (String) -> Unit){
 }
 
 fun String.transformedEmailId(): String = this.replace('.','~')
+
+fun String.getTopic(): String =
+    this.transformedEmailId()
+        .replace('~','y')
+        .replace('@','z')
+        .toCharArray()
+        .filter { it.isLetter() }
+        .joinToString(separator = "")
+
 
 @OptIn(DelicateCoroutinesApi::class)
 fun String.getDrawable( success : (Drawable?) -> Unit) {
@@ -155,6 +167,9 @@ fun Long.toDateTime(): String{
 }
 
 fun Int.getDeliveryCharge(): Int =
+    if(this<200) 10
+    else 20
+fun Int.getDeliveryCharge2(): Int =
     if(this<45) 5
     else if(this<85) 10
     else if(this<125) 20
@@ -164,3 +179,14 @@ fun Int.getDeliveryCharge(): Int =
     else if(this<285) 40
     else if(this<325) 45
     else 50
+
+fun Context.getAccessToken(): String{
+    val scopes = listOf("https://www.googleapis.com/auth/firebase.messaging")
+    val googleCredentials  = GoogleCredentials
+        .fromStream( resources.openRawResource(R.raw.service_account))
+        .createScoped(scopes)
+    googleCredentials.refreshIfExpired()
+    googleCredentials.refreshAccessToken()
+    Log.d("TAG", "getAccessToken suc: ${googleCredentials.accessToken.tokenValue}")
+    return googleCredentials.accessToken.tokenValue
+}

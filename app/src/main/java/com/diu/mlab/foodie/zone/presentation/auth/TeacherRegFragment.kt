@@ -44,7 +44,9 @@ class TeacherRegFragment : Fragment() {
                 viewModel.setLoadingVisibility(false)
                 startActivity(Intent(requireContext(), UserMainActivity::class.java))
                 requireActivity().finish()
-                Toast.makeText(requireContext(), "Signup successful", Toast.LENGTH_SHORT).show()
+                MainScope().launch {
+                    Toast.makeText(requireContext(), "Signup successful", Toast.LENGTH_SHORT).show()
+                }
             }){
                 Log.e("TAG", "failed: $it")
                 MainScope().launch {

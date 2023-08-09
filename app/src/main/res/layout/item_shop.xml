@@ -85,7 +85,7 @@
                     android:src="@drawable/ic_qr_code"
                     android:padding="3dp"
                     android:background="@drawable/btn_special_blck_bg"
-                    />
+                    app:tint="@color/black" />
 
 
 

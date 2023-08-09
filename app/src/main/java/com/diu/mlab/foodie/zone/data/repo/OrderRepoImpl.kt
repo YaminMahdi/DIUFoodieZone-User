@@ -1,17 +1,28 @@
 package com.diu.mlab.foodie.zone.data.repo
 
+import android.content.Context
+import android.util.Log
+import com.diu.mlab.foodie.zone.data.data_source.*
 import com.diu.mlab.foodie.zone.domain.model.OrderInfo
 import com.diu.mlab.foodie.zone.domain.repo.OrderRepo
+import com.diu.mlab.foodie.zone.util.getAccessToken
+import com.diu.mlab.foodie.zone.util.getTopic
 import com.diu.mlab.foodie.zone.util.transformedEmailId
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OrderRepoImpl @Inject constructor(
     private val realtime: FirebaseDatabase,
     private val firebaseUser: FirebaseUser?,
-    ): OrderRepo {
+    private val api: NotificationApi,
+    private val context: Context
+): OrderRepo {
     override fun getOrderInfo(
         orderId: String,
         success: (orderInfo: OrderInfo) -> Unit,
@@ -74,6 +85,7 @@ class OrderRepoImpl @Inject constructor(
             })
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun placeOrder(
         orderInfo: OrderInfo,
         success: (orderInfo: OrderInfo) -> Unit,
@@ -115,6 +127,25 @@ class OrderRepoImpl @Inject constructor(
                 .setValue(info)
                 .addOnSuccessListener {
                     success.invoke(info)
+                    GlobalScope.launch(Dispatchers.IO){
+                        try {
+                            api.notifySeller(
+                                NotificationMessage(
+                                    OrderNotifyInfo(
+                                        topic = info.shopInfo.email.getTopic(),
+                                        data = NotificationData(
+                                            title = "${info.userInfo.nm.split(" ")[0]} Ordered Food",
+                                            body = "${info.quantity}x ${info.foodInfo.nm}"
+                                        )
+                                    )
+                                ), "Bearer ${context.getAccessToken()}"
+                            )
+                        }
+                        catch(e: Exception){
+                            Log.d("TAG", "placeOrder Exception: ${e.message}")
+                            failed.invoke("Server Error")
+                        }
+                    }
                 }
                 .addOnFailureListener {
                     failed.invoke(it.message.toString())

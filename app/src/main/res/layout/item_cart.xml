@@ -32,7 +32,7 @@
                 <ImageView
                     android:id="@+id/pic"
                     android:layout_width="115dp"
-                    android:layout_height="85dp"
+                    android:layout_height="85sp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/logo"
                     android:scaleType="centerCrop"

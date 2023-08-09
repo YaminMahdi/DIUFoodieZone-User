@@ -1,11 +1,14 @@
 package com.diu.mlab.foodie.zone.presentation.main
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -19,6 +22,9 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class UserMainActivity : AppCompatActivity() {
@@ -31,6 +37,7 @@ class UserMainActivity : AppCompatActivity() {
 
         binding = ActivityUserMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 //        setSupportActionBar(binding.appBarUserMain.toolbar)
         changeNavBarColor(R.color.tia,true)
 
@@ -38,6 +45,10 @@ class UserMainActivity : AppCompatActivity() {
         val navView: NavigationView = binding.navView
         val headerView = navView.getHeaderView(0)
         val isUserLoggedIn = Firebase.auth.currentUser != null
+
+//        GlobalScope.launch(Dispatchers.IO){
+//            Log.d("token", "onCreate: ${getAccessToken()}")
+//        }
 
 
         viewModel.userProfile.observe(this){user ->
